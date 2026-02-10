@@ -9,53 +9,56 @@ const Booking = () => {
   const [loading, setLoading] = useState(false);
 
 
+  const fechaHoy = new Date();
+  const hoyStr = fechaHoy.toISOString().split("T")[0]; 
+  
+  const fechaLimite = new Date();
+  fechaLimite.setFullYear(fechaHoy.getFullYear() + 30);
+  const limiteStr = fechaLimite.toISOString().split("T")[0];
+
   useEffect(() => {
     const guardada = localStorage.getItem('museo_reserva');
-    if (guardada) setCita(JSON.parse(guardada));
+    if (guardada) {
+      try {
+        setCita(JSON.parse(guardada));
+      } catch (e) {
+        localStorage.removeItem('museo_reserva');
+      }
+    }
   }, []);
-
 
   const agendar = async (e) => {
     e.preventDefault();
+    
+    
+    const soloLetras = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+    if (!soloLetras.test(nombre)) {
+      alert("Por favor, usa solo letras en el nombre.");
+      return;
+    }
+
     setLoading(true);
     try {
-      const response = await axios.post('http://localhost:5000/api/citas', {
-        nombre,
-        fecha
-      });
-
-      if (response.status === 201) {
-        const nuevaCita = response.data;
-        localStorage.setItem('museo_reserva', JSON.stringify(nuevaCita));
-        setCita(nuevaCita);
-      }
+      const response = await axios.post('http://localhost:5000/api/citas', { nombre, fecha });
+      localStorage.setItem('museo_reserva', JSON.stringify(response.data));
+      setCita(response.data);
     } catch (error) {
-      console.error("Error al agendar:", error);
-      alert("No se pudo conectar con el servidor.");
+      alert("Error de conexión con el servidor.");
     } finally {
       setLoading(false);
     }
   };
 
-
-  const cancelarReserva = async () => {
-    if (!window.confirm("¿Estás seguro de que deseas cancelar tu visita?")) return;
-
-    setLoading(true);
+  const cancelar = async () => {
+    if (!window.confirm("¿Cancelar reserva?")) return;
     try {
-     
       await axios.delete(`http://localhost:5000/api/citas/${cita._id}`);
-      
       localStorage.removeItem('museo_reserva');
       setCita(null);
       setNombre('');
       setFecha('');
-      alert("Reserva eliminada de la nube con éxito.");
     } catch (error) {
-      console.error("Error al eliminar:", error);
-      alert("Hubo un error al intentar cancelar la reserva.");
-    } finally {
-      setLoading(false);
+      alert("No se pudo eliminar.");
     }
   };
 
@@ -64,33 +67,15 @@ const Booking = () => {
       <div className="booking-container">
         {cita ? (
           <div className="confirmation-card">
-            <div className="status-badge">Reserva Activa</div>
-            <h2>¡Todo listo, {cita.nombre.split(' ')[0]}!</h2>
-            
+            <h2>Reserva Confirmada</h2>
             <div className="ticket-details">
-              <div className="detail-item">
-                <span>Fecha de Visita</span>
-                <p>{cita.fecha}</p>
-              </div>
-              <div className="detail-item">
-                <span>ID de Seguridad</span>
-                <p className="id-text">{cita._id}</p>
-              </div>
+              <p><strong>Visitante:</strong> {cita.nombre}</p>
+              <p><strong>Fecha:</strong> {cita.fecha}</p>
             </div>
-
-            <div className="actions-group">
-              <button 
-                className="btn-cancel" 
-                onClick={cancelarReserva} 
-                disabled={loading}
-              >
-                {loading ? 'Cancelando...' : 'Cancelar Reserva'}
-              </button>
-            </div>
+            <button className="btn-cancel" onClick={cancelar}>Eliminar Reserva</button>
           </div>
         ) : (
           <form className="booking-form" onSubmit={agendar}>
-            <span className="form-tag">Ticket Digital</span>
             <h2>Reserva tu Entrada</h2>
             <div className="inputs-wrapper">
               <input 
@@ -103,12 +88,14 @@ const Booking = () => {
               <input 
                 type="date" 
                 value={fecha}
+                min={hoyStr} 
+                max={limiteStr}
                 required 
                 onChange={e => setFecha(e.target.value)} 
               />
             </div>
             <button type="submit" className="btn-confirmar" disabled={loading}>
-              {loading ? 'Procesando...' : 'Confirmar en MongoDB'}
+              {loading ? 'Cargando...' : 'Confirmar'}
             </button>
           </form>
         )}
