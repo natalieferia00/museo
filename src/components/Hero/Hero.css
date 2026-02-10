@@ -1,0 +1,31 @@
+.hero-container {
+  height: 85vh;
+  display: flex;
+  align-items: center;
+  padding: 0 8%;
+  background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), 
+              url('https://images.unsplash.com/photo-1544531585-9847b68c8c86?q=80&w=2070') center/cover no-repeat;
+}
+
+.hero-content { color: white; max-width: 650px; }
+.hero-label { text-transform: uppercase; letter-spacing: 3px; font-size: 0.8rem; color: #d4af37; }
+.hero-title { font-size: clamp(3.5rem, 8vw, 6rem); margin: 1rem 0; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
+
+.fact-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  border-left: 3px solid #d4af37;
+  margin-top: 2rem;
+}
+
+.fact-label { font-weight: 700; font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 0.5rem; color: #d4af37; }
+.fact-text { font-style: italic; font-size: 1.1rem; line-height: 1.6; margin: 0; }
+
+/* Ajustes para móviles */
+@media (max-width: 768px) {
+  .hero { height: 70vh; }
+  .hero h1 { font-size: 2.5rem; }
+  .subtitle { font-size: 0.7rem; letter-spacing: 2px; }
+  .fact-box { padding: 15px; margin-top: 20px; }
+}

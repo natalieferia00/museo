@@ -1,0 +1,26 @@
+.events-section { padding: 5rem 8%; background: var(--bg-color); }
+.section-title { font-size: 2.5rem; margin-bottom: 3rem; text-align: center; }
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2.5rem;
+}
+
+.event-card {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  background: var(--soft-gray);
+}
+
+.event-card:hover { transform: translateY(-10px); }
+.event-img { height: 350px; background-size: cover; background-position: center; }
+
+.event-info { padding: 1.5rem; border: 1px solid #eee; border-top: none; }
+.event-date { font-size: 0.8rem; color: var(--accent-color); font-weight: 600; }
+.event-name { font-size: 1.4rem; margin: 0.5rem 0 0 0; }
+
+@media (max-width: 480px) {
+  .art-img { height: 250px; }
+  .title { font-size: 1.8rem; }
+}

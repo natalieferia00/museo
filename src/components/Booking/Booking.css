@@ -1,0 +1,119 @@
+.booking-section {
+  padding: 60px 20px;
+  background-color: #f8f9fa;
+  min-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.booking-container {
+  background: white;
+  width: 100%;
+  max-width: 450px;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-top: 6px solid #1c1c1c;
+}
+
+
+.form-tag {
+  color: #947a5d;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.booking-form h2 {
+  margin: 10px 0 30px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+}
+
+.inputs-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+input {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+
+.btn-confirmar {
+  width: 100%;
+  padding: 15px;
+  background-color: #1c1c1c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-confirmar:hover {
+  background-color: #947a5d;
+}
+
+
+.status-badge {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 5px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.ticket-details {
+  background: #fdfdfd;
+  border: 1px dashed #ccc;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: left;
+}
+
+.detail-item span {
+  font-size: 0.7rem;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.id-text {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+
+.btn-cancel {
+  width: 100%;
+  padding: 12px;
+  background-color: transparent;
+  color: #d32f2f; 
+  border: 1px solid #d32f2f;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.btn-cancel:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
