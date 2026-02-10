@@ -8,18 +8,18 @@ const Booking = () => {
   const [cita, setCita] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // URL de tu API en Render (Sustituye por tu URL real si es diferente)
+
   const API_URL = "https://backend-museo.onrender.com/api/citas";
 
-  // --- Lógica de Fechas Seguras ---
+
   const fechaHoy = new Date();
-  const hoyStr = fechaHoy.toISOString().split("T")[0]; // Bloquea fechas pasadas
-  
+  const hoyStr = fechaHoy.toISOString().split("T")[0];
+
   const fechaLimite = new Date();
   fechaLimite.setFullYear(fechaHoy.getFullYear() + 30);
-  const limiteStr = fechaLimite.toISOString().split("T")[0]; // Límite 30 años
+  const limiteStr = fechaLimite.toISOString().split("T")[0];
 
-  // Cargar reserva persistente al iniciar
+
   useEffect(() => {
     const guardada = localStorage.getItem('museo_reserva');
     if (guardada) {
@@ -31,7 +31,7 @@ const Booking = () => {
     }
   }, []);
 
-  // Bloqueo de números y caracteres especiales en tiempo real
+
   const handleNombreChange = (e) => {
     const valor = e.target.value;
     const soloLetras = valor.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, "");
@@ -40,8 +40,7 @@ const Booking = () => {
 
   const agendar = async (e) => {
     e.preventDefault();
-    
-    // Validación de seguridad extra antes de enviar
+
     if (nombre.trim().length < 3) {
       alert("Por favor, ingresa un nombre válido.");
       return;
@@ -50,8 +49,8 @@ const Booking = () => {
     setLoading(true);
     try {
       const response = await axios.post(API_URL, { nombre, fecha });
-      
-      // Sincronización con LocalStorage y Estado
+
+
       localStorage.setItem('museo_reserva', JSON.stringify(response.data));
       setCita(response.data);
       alert("¡Reserva confirmada en la nube!");
@@ -70,7 +69,7 @@ const Booking = () => {
     try {
       // Eliminar de MongoDB Atlas a través de la API
       await axios.delete(`${API_URL}/${cita._id}`);
-      
+
       localStorage.removeItem('museo_reserva');
       setCita(null);
       setNombre('');
@@ -91,7 +90,7 @@ const Booking = () => {
           <div className="confirmation-card">
             <div className="status-badge">Reserva Activa</div>
             <h2>¡Todo listo, {cita.nombre.split(' ')[0]}!</h2>
-            
+
             <div className="ticket-details">
               <div className="detail-item">
                 <span>Visitante</span>
@@ -107,9 +106,9 @@ const Booking = () => {
               </div>
             </div>
 
-            <button 
-              className="btn-cancel" 
-              onClick={cancelarReserva} 
+            <button
+              className="btn-cancel"
+              onClick={cancelarReserva}
               disabled={loading}
             >
               {loading ? 'Procesando...' : 'Eliminar Reserva'}
@@ -120,20 +119,20 @@ const Booking = () => {
             <span className="form-tag">Ticket Digital</span>
             <h2>Reserva tu Entrada</h2>
             <div className="inputs-wrapper">
-              <input 
-                type="text" 
-                placeholder="Tu nombre (solo letras)" 
+              <input
+                type="text"
+                placeholder="Tu nombre (solo letras)"
                 value={nombre}
-                required 
-                onChange={handleNombreChange} 
+                required
+                onChange={handleNombreChange}
               />
-              <input 
-                type="date" 
+              <input
+                type="date"
                 value={fecha}
                 min={hoyStr}
                 max={limiteStr}
-                required 
-                onChange={e => setFecha(e.target.value)} 
+                required
+                onChange={e => setFecha(e.target.value)}
               />
             </div>
             <button type="submit" className="btn-confirmar" disabled={loading}>
